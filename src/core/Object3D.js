@@ -19,22 +19,22 @@ var object3DId = 0;
 
 function Object3D() {
 
-	Object.defineProperty( this, 'id', { value: object3DId ++ } );
+	Object.defineProperty( this, 'id', { value: object3DId ++ } ); // 3d对象的id
 
-	this.uuid = _Math.generateUUID();
+	this.uuid = _Math.generateUUID(); // 生成3d对象的uuid
 
-	this.name = '';
-	this.type = 'Object3D';
+	this.name = '';  // 3d对象的名称
+	this.type = 'Object3D'; // 3d对象的类型
 
-	this.parent = null;
-	this.children = [];
+	this.parent = null; // 3d对象的父对象
+	this.children = []; // 3d对象的子对象
 
-	this.up = Object3D.DefaultUp.clone();
+	this.up = Object3D.DefaultUp.clone(); // 3d对象的上方向
 
-	var position = new Vector3();
-	var rotation = new Euler();
-	var quaternion = new Quaternion();
-	var scale = new Vector3( 1, 1, 1 );
+	var position = new Vector3(); // 新建了一个Vector3(向量)对象作为3d对象的位置参数
+	var rotation = new Euler();  // 新建了一个Euler(欧拉)对象作为3d对象的默认旋转参数
+	var quaternion = new Quaternion(); // 新建了一个Quaternion(四元素)对象作为3d对象的四元素参数
+	var scale = new Vector3( 1, 1, 1 ); // 新建一个vector3作为3d对象的缩放参数
 
 	function onRotationChange() {
 
@@ -48,10 +48,10 @@ function Object3D() {
 
 	}
 
-	rotation.onChange( onRotationChange );
-	quaternion.onChange( onQuaternionChange );
+	rotation.onChange( onRotationChange ); // 当rotation对象被改变的时候，触发onRotationChange函数，也就是同时改变quaternion的值
+	quaternion.onChange( onQuaternionChange ); // 当quaternion对象被改变的时候，触发onQuaternionChange函数，也就是同时改变rotation的值
 
-	Object.defineProperties( this, {
+	Object.defineProperties( this, {  // 定义position、rotation、quaternion可枚举属性
 		position: {
 			enumerable: true,
 			value: position
@@ -68,18 +68,18 @@ function Object3D() {
 			enumerable: true,
 			value: scale
 		},
-		modelViewMatrix: {
+		modelViewMatrix: {			// 等同于 this.modelViewMatrix = new Matrix4()
 			value: new Matrix4()
 		},
 		normalMatrix: {
-			value: new Matrix3()
+			value: new Matrix3()  // 等同于 this.normalMatrix = new Matrix3()
 		}
 	} );
 
-	this.matrix = new Matrix4();
-	this.matrixWorld = new Matrix4();
+	this.matrix = new Matrix4();			// 局部坐标系变换矩阵
+	this.matrixWorld = new Matrix4(); // 世界坐标系变换矩阵
 
-	this.matrixAutoUpdate = Object3D.DefaultMatrixAutoUpdate;
+	this.matrixAutoUpdate = Object3D.DefaultMatrixAutoUpdate; // 自动更新局部
 	this.matrixWorldNeedsUpdate = false;
 
 	this.layers = new Layers();
