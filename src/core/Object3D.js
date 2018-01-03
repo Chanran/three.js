@@ -77,26 +77,26 @@ function Object3D() {
 	} );
 
 	this.matrix = new Matrix4();			// 局部坐标系变换矩阵
-	this.matrixWorld = new Matrix4(); // 世界坐标系变换矩阵
+	this.matrixWorld = new Matrix4(); // 世界坐标系变换矩阵, 直接从当前局部坐标系的变换到世界坐标系的矩阵
 
 	this.matrixAutoUpdate = Object3D.DefaultMatrixAutoUpdate; // 自动更新局部
-	this.matrixWorldNeedsUpdate = false;
+	this.matrixWorldNeedsUpdate = false; // 是否需要更新世界坐标系的变换矩阵
 
-	this.layers = new Layers();
-	this.visible = true;
+	this.layers = new Layers(); //
+	this.visible = true; // 设置这个object3d对象是否可见
 
-	this.castShadow = false;
-	this.receiveShadow = false;
+	this.castShadow = false; // 是否可以被渲染到阴影图哩
+	this.receiveShadow = false; // 是否接收阴影
 
-	this.frustumCulled = true;
-	this.renderOrder = 0;
+	this.frustumCulled = true; // 每帧检测这个object3D对象是否在camera的视锥体内 
+	this.renderOrder = 0; // 渲染顺序
 
 	this.userData = {};
 
 }
 
-Object3D.DefaultUp = new Vector3( 0, 1, 0 );
-Object3D.DefaultMatrixAutoUpdate = true;
+Object3D.DefaultUp = new Vector3( 0, 1, 0 ); // 默认上方向
+Object3D.DefaultMatrixAutoUpdate = true;     // 默认自动更新局部坐标系矩阵
 
 Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
