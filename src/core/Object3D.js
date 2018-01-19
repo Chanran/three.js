@@ -104,9 +104,16 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	isObject3D: true,
 
-	onBeforeRender: function () {},
-	onAfterRender: function () {},
+	onBeforeRender: function () {}, // 渲染之前的钩子函数
+	onAfterRender: function () {},  // 渲染之后的钩子函数
 
+	/**
+	 * 当前的object3d对象的this.matrix乘上matrix矩阵
+	 * 调用this.matrix自带的矩阵乘法函数mutiplyMatrices相乘，然后改变当前this.matrix
+	 * 调用this.matrix.decompose将变化后的this.matrix映射到this.position,this.quaternion,this.scale
+	 * 
+	 * @param {Matrix} matrix 矩阵
+	 */
 	applyMatrix: function ( matrix ) {
 
 		this.matrix.multiplyMatrices( matrix, this.matrix );
@@ -115,6 +122,12 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
+	/**
+	 * 当前的object3d对象this.quaternion乘上quaternion四元素
+	 * 调用this.quaternion自带的premultiply，然后改变当前this.quaternion
+	 * 
+	 * @param {Quaternion} q 四元素
+	 */
 	applyQuaternion: function ( q ) {
 
 		this.quaternion.premultiply( q );
@@ -123,6 +136,13 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
+
+	/**
+	 * 绕某个旋转轴旋转一定的弧度
+	 * 
+	 * @param {Vector3} axis 绕着旋转的某个旋转轴
+	 * @param {number} angle 弧度
+	 */
 	setRotationFromAxisAngle: function ( axis, angle ) {
 
 		// assumes axis is normalized
@@ -131,12 +151,23 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
+	
+	/**
+	 * 根据欧拉角旋转
+	 * 
+	 * @param {Euler} euler 欧拉角
+	 */
 	setRotationFromEuler: function ( euler ) {
 
 		this.quaternion.setFromEuler( euler, true );
 
 	},
 
+	/**
+	 * 根据矩阵旋转
+	 * 
+	 * @param {Matrix4} m 矩阵
+	 */
 	setRotationFromMatrix: function ( m ) {
 
 		// assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
@@ -145,6 +176,11 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
+	/**
+	 * 根据四元素旋转
+	 * 
+	 * @param {Quaternion} q 四元素
+	 */
 	setRotationFromQuaternion: function ( q ) {
 
 		// assumes q is normalized
@@ -153,6 +189,14 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
+	/**
+	 * 绕某个旋转轴旋转一定的弧度
+	 * 
+	 * 这里使用了闭包来实现单例模式，每次执行rotateOnAxis的时候都只用一开始创建的q1四元素做中转站
+	 * 
+	 * @param {Vector3} axis 绕着旋转的某个旋转轴
+	 * @param {number} angle 弧度
+	 */
 	rotateOnAxis: function () {
 
 		// rotate object on axis in object space

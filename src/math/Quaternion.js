@@ -269,6 +269,12 @@ Object.assign( Quaternion.prototype, {
 
 	},
 
+	/**
+	 * 绕某个旋转轴旋转一定的弧度
+	 * 
+	 * @param {Vector3} axis 绕着旋转的某个旋转轴
+	 * @param {number} angle 弧度 
+	 */
 	setFromAxisAngle: function ( axis, angle ) {
 
 		// http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
@@ -288,6 +294,11 @@ Object.assign( Quaternion.prototype, {
 
 	},
 
+	/**
+	 * 根据矩阵旋转
+	 * 
+	 * @param {Matrix4} m 矩阵
+	 */
 	setFromRotationMatrix: function ( m ) {
 
 		// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
@@ -476,6 +487,10 @@ Object.assign( Quaternion.prototype, {
 
 	},
 
+	/**
+	 * 四元素相乘
+	 * 相乘的结果存放在当前四元素对象里，然后调用onChangeCallback改变外部因四元素而应该要变化的值
+	 */
 	multiplyQuaternions: function ( a, b ) {
 
 		// from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
